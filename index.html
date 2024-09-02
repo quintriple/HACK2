@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>User Profile Example</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
         #profile-section {
+            display: none; /* Hide the profile section initially */
             margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
         #profile-picture {
             border-radius: 50%;
@@ -18,13 +23,14 @@
             height: 100px;
             display: block;
         }
+        #user-button {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Cats are cool</h1>
-    
-    <button onclick="viewReviews()">See Reviews</button>
-    
+    <button id="user-button" onclick="toggleProfile()">User</button>
+
     <div id="profile-section">
         <h2>Your Profile</h2>
         <img id="profile-picture" src="default-profile.png" alt="Profile Picture">
@@ -35,10 +41,14 @@
     </div>
 
     <script>
-        function viewReviews() {
-            // For demo purposes, we'll just show an alert.
-            // You can replace this with actual review functionality.
-            alert("No reviews available.");
+        function toggleProfile() {
+            const profileSection = document.getElementById('profile-section');
+            // Toggle the visibility of the profile section
+            if (profileSection.style.display === 'none') {
+                profileSection.style.display = 'block';
+            } else {
+                profileSection.style.display = 'none';
+            }
         }
 
         function updateProfilePicture() {
@@ -60,7 +70,8 @@
             const input = document.getElementById('name-input');
             const name = input.value.trim();
             if (name) {
-                document.getElementById('profile-name').textContent = name;
+                // Vulnerable to XSS: directly injecting user input
+                document.getElementById('profile-name').innerHTML = name;
             }
         }
     </script>
